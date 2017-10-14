@@ -1,12 +1,12 @@
 
 class Validity:
 
-validCommandsList = ['login','logout','createacct','deleteacct','deposit','withdraw','transfer']
-validCommand = None
-validAccountNumber = None
-validAmount = None
-validAccountName = None
-machineState = True # machine mode 
+	validCommandsList = ['login','logout','createacct','deleteacct','deposit','withdraw','transfer']
+	validCommand = None
+	validAccountNumber = None
+	validAmount = None
+	validAccountName = None
+	machineState = True # machine mode 
 
 
 	def __init__(self):
@@ -33,7 +33,7 @@ machineState = True # machine mode
 		zerothDigit = str(accountNumber[0])
 		if(numDigits > 7 or numDigits < 7):
 			validAccount = False
-		elif(zerothDigit = 0):
+		elif(zerothDigit == 0):
 			validAccountNumber = False
 		else:
 			validAccountNumber = True
@@ -43,7 +43,7 @@ machineState = True # machine mode
 		if(machineState):
 			if(amount < 0 or amount > 100000):
 				validAmount = False
-		if(!machineState):
+		if(machineState == False):
 			if(amount < 0 or amount > 99999999):
 				validAmount = False
 		else:
@@ -51,7 +51,7 @@ machineState = True # machine mode
 
 
 	def checkAccountName(accountName):
-		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) <  or accountName.startwith(" ") or accountName.endswith(" ")):
+		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) < 3 or accountName.startwith(" ") or accountName.endswith(" ")):
 			validAccountName = False
 		else:
 			validAccountName = True
