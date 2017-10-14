@@ -6,15 +6,14 @@ class Console:
 	accountName = None
 
 
-	def __init__(self):
-		self.command = command
-		self.accountNumber = accountNumber
-		self.amount = amount
-		self.accountName = accountName
 
-	def commandInput():
-		command = raw_input()
-		return command
+	def commandInput(self):
+		
+		commandIn = raw_input(("Command:"))
+		self.command = commandIn
+		return self.command
+
+		
 
 
 

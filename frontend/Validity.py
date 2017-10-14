@@ -9,52 +9,46 @@ class Validity:
 	machineState = True # machine mode 
 
 
-	def __init__(self):
-		self.validCommand = validCommand
-		self.validAccountNumber = validAccountNumber
-		self.validAmount = validAmount
-		self.machineState = machineState
-		self.validAccountName = validAccountName
-
 
 
 	#checks if command being tried is valid
-	def checkCommandValid(command,validCommandsList):
+	def checkCommandValid(self,command,validCommandsList):
 		if command in validCommandsList:
 			print("valid command")
-			validCommand = true
+			self.validCommand = True
 		else:
-			validCommand = false
+			print("invalid command")
+			self.validCommand = False
 
 
 	# check if accountNumber is valid
-	def checkAccountNumber(accountNumber):
+	def checkAccountNumber(self,accountNumber):
 		numDigits = len(str(abs(num)))
 		zerothDigit = str(accountNumber[0])
 		if(numDigits > 7 or numDigits < 7):
-			validAccount = False
+			self.validAccount = False
 		elif(zerothDigit == 0):
-			validAccountNumber = False
+			self.validAccountNumber = False
 		else:
-			validAccountNumber = True
+			self.validAccountNumber = True
 
     #check if amount is valid
-	def checkAmount(amount, machineState):
+	def checkAmount(self,amount, machineState):
 		if(machineState):
 			if(amount < 0 or amount > 100000):
-				validAmount = False
+				self.validAmount = False
 		if(machineState == False):
 			if(amount < 0 or amount > 99999999):
-				validAmount = False
+				self.validAmount = False
 		else:
-			validAmount = True
+			self.validAmount = True
 
 
-	def checkAccountName(accountName):
+	def checkAccountName(self,accountName):
 		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) < 3 or accountName.startwith(" ") or accountName.endswith(" ")):
-			validAccountName = False
+			self.validAccountName = False
 		else:
-			validAccountName = True
+			self.validAccountName = True
 
 
 
