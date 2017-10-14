@@ -5,13 +5,16 @@ validCommandsList = ['login','logout','createacct','deleteacct','deposit','withd
 validCommand = None
 validAccountNumber = None
 validAmount = None
-machineState = true # machine mode 
+validAccountName = None
+machineState = True # machine mode 
+
 
 	def __init__(self):
 		self.validCommand = validCommand
 		self.validAccountNumber = validAccountNumber
 		self.validAmount = validAmount
 		self.machineState = machineState
+		self.validAccountName = validAccountName
 
 
 
@@ -29,22 +32,29 @@ machineState = true # machine mode
 		numDigits = len(str(abs(num)))
 		zerothDigit = str(accountNumber[0])
 		if(numDigits > 7 or numDigits < 7):
-			validAccount = false
+			validAccount = False
 		elif(zerothDigit = 0):
-			validAccountNumber = false
+			validAccountNumber = False
 		else:
-			validAccountNumber = true
+			validAccountNumber = True
 
-
+    #check if amount is valid
 	def checkAmount(amount, machineState):
 		if(machineState):
 			if(amount < 0 or amount > 100000):
-				validAmount = false
+				validAmount = False
 		if(!machineState):
 			if(amount < 0 or amount > 99999999):
-				validAmount = false
+				validAmount = False
 		else:
-			validAmount = true
+			validAmount = True
+
+
+	def checkAccountName(accountName):
+		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) <  or accountName.startwith(" ") or accountName.endswith(" ")):
+			validAccountName = False
+		else:
+			validAccountName = True
 
 
 
