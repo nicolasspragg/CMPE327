@@ -23,5 +23,8 @@ def main():
 	tester.checkAccountName(accName)
 
 
-
+accountsListFile = sys.argv[1]
+accountsList = open(accountsListFile, 'r').readlines()
+accountsList = map(int, accountsList)
+print accountsList
 main()
