@@ -26,6 +26,15 @@ def qbasic():
 			currentSession.logout()
 		elif(cmd == "create"):
 			actions.create(currentSession)
+		elif(cmd == "delete"):
+			actions.delete(currentSession)
+		elif(cmd == "deposit"):
+			actions.deposit(currentSession)
+		elif(cmd == "withdraw"):
+			actions.withdraw(currentSession)
+		elif(cmd == "transfer"):
+			actions.transfer(currentSession)
+
 		
 def loadAccounts():
 	global accountsList
