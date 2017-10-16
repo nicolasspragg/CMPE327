@@ -2,6 +2,8 @@
 class Console:
 	command = None
 	accountNumber = None
+	fromAccountNumber = None
+	toAccountNumber = None
 	amount = None
 	accountName = None
 	accountType = None
@@ -13,11 +15,21 @@ class Console:
 		return self.command
 
 	def accountNumberInput(self):
-		accountNumberIn = raw_input(("Account number "))
+		accountNumberIn = raw_input(("Account number:"))
 		self.accountNumber = accountNumberIn
 		return self.accountNumber
+	
+	def fromAccountNumberInput(self):
+		accountNumberIn = raw_input(("Account number (from):"))
+		self.fromAccountNumber = accountNumberIn
+		return self.fromAccountNumber
+	
+	def toAccountNumberInput(self):
+		accountNumberIn = raw_input(("Account number (to):"))
+		self.toAccountNumber = accountNumberIn
+		return self.toAccountNumber
 
-	def amountIn(self):
+	def amountInput(self):
 		amountIn = raw_input(("amount:"))
 		self.amount = amountIn
 		return self.amount
