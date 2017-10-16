@@ -25,10 +25,11 @@ class Session:
 			else: 
 				print("fatal error")
 
-	def logout(self):
+	def logout(self, transactionSummary):
 		self.accountType = None 
 		self.loggedInUser = False
 		self.loggedInAgent = False
 		self.loggedInGeneral = False
+		transactionSummary.write("EOS 0000000 000 0000000 ***\n")
 
 

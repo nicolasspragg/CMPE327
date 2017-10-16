@@ -6,9 +6,10 @@ import sys, os
 
 atmOn = True
 accountsList = None
+transactionSummary = None
 
 def qbasic():
-	global atmOn, accountsList
+	global atmOn, accountsList, transactionSummary
 	print accountsList
 
 	userInput = Console()
@@ -23,18 +24,19 @@ def qbasic():
 		elif(cmd == "login"):
 			currentSession.login()
 		elif(cmd == "logout"):
-			currentSession.logout()
+			currentSession.logout(transactionSummary)
 		elif(cmd == "create"):
-			actions.create(currentSession)
+			actions.create(currentSession, transactionSummary)
 		elif(cmd == "delete"):
-			actions.delete(currentSession)
+			actions.delete(currentSession, transactionSummary)
 		elif(cmd == "deposit"):
-			actions.deposit(currentSession)
+			actions.deposit(currentSession, transactionSummary)
 		elif(cmd == "withdraw"):
-			actions.withdraw(currentSession)
+			actions.withdraw(currentSession, transactionSummary)
 		elif(cmd == "transfer"):
-			actions.transfer(currentSession)
+			actions.transfer(currentSession, transactionSummary)
 
+	transactionSummary.close()
 		
 def loadAccounts():
 	global accountsList
@@ -42,5 +44,11 @@ def loadAccounts():
 	accountsList = open(accountsListFile, 'r').readlines()
 	accountsList = map(int, accountsList)
 
+def loadSummaryFile():
+	global transactionSummary
+	transactionSummaryFile = sys.argv[2]
+	transactionSummary = open(transactionSummaryFile, 'a')
+
 loadAccounts()
+loadSummaryFile()
 qbasic()
