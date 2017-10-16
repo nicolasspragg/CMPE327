@@ -12,7 +12,7 @@ class Validity:
 
 
 	#checks if command being tried is valid
-	def checkCommandValid(self,command,validCommandsList):
+	def checkCommand(self,command,validCommandsList):
 		if command in validCommandsList:
 			print("valid command")
 			self.validCommand = True
@@ -23,13 +23,16 @@ class Validity:
 
 	# check if accountNumber is valid
 	def checkAccountNumber(self,accountNumber):
-		numDigits = len(str(abs(num)))
+		numDigits = len(str((accountNumber)))
 		zerothDigit = str(accountNumber[0])
 		if(numDigits > 7 or numDigits < 7):
+			print("invalid account number")
 			self.validAccount = False
 		elif(zerothDigit == 0):
+			print("invalid account number")
 			self.validAccountNumber = False
 		else:
+			print("valid account number")
 			self.validAccountNumber = True
 
     #check if amount is valid

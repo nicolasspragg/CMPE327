@@ -5,13 +5,22 @@ import sys, os
 def main():
 	userInput = Console()
 	tester = Validity()
-	#cmd = userInput.commandInput()
-	#accountNum = userInput.accountNumberInput()
-	#accountName = userInput.accountNameInput()
+
+	accountNum = userInput.accountNumberInput()
+	print(accountNum)
+	tester.checkAccountNumber(accountNum) 
+
+	cmd = userInput.commandInput()
+	print(cmd)
+	tester.checkCommand(cmd,tester.validCommandsList)
+#broken
 	amt = userInput.amountIn()
 	print(amt)
+	tester.checkAmount(amt,True)
 
-	tester.checkAmount(amt,False)
+	accName = userInput.accountNameInput()
+	print(accName)
+	tester.checkAccountName(accName)
 
 
 
