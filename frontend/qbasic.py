@@ -1,34 +1,37 @@
 from Console import Console
 from Validity import Validity
 from Session import Session
+from Actions import Actions
 import sys, os
 
+atmOn = True
+accountsList = None
+
 def qbasic():
+	global atmOn, accountsList
+	print accountsList
+
 	userInput = Console()
 	tester = Validity()
-	newSession = Session()
+	currentSession = Session()
+	actions = Actions()
 
-	cmd = userInput.commandInput()
-
-
-	if(cmd == "login"):
-		accType = userInput.accountTypeInput() 
-		newSession.login(accType)
-	elif(cmd == "logout"):
+	while atmOn == True:
+		cmd = userInput.commandInput()
+		if cmd == "off":
+			atmOn = False
+		elif(cmd == "login"):
+			currentSession.login()
+		elif(cmd == "logout"):
+			currentSession.logout()
+		elif(cmd == "create"):
+			actions.create(currentSession)
 		
+def loadAccounts():
+	global accountsList
+	accountsListFile = sys.argv[1]
+	accountsList = open(accountsListFile, 'r').readlines()
+	accountsList = map(int, accountsList)
 
-
-
-
-
-	
-
-
-
-
-	
-
-
-
-
+loadAccounts()
 qbasic()

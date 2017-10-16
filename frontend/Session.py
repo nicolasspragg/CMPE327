@@ -1,3 +1,6 @@
+from Console import Console
+userInput = Console()
+
 class Session:
 	accountType = None 
 	loggedInUser = False
@@ -5,19 +8,27 @@ class Session:
 	loggedInGeneral = False
 
 	#login function
-	def login(self,accountType):
+	def login(self):
 		loggedInGeneral = self.loggedInGeneral
 		if(loggedInGeneral == True):
 			print("already logged in")
-		elif(accountType == "user"):
-			print("logged in User Mode")
-			self.loggedInGeneral = True
-			self.loggedInUser = True
-		elif(accountType == "teller"):
-			print("logged in Agent mode")
-			self.loggedInGeneral = True
-			self.loggedInAgent = True
-		else: 
-			print("fatal error")
+		else:
+			accountType = userInput.accountTypeInput() 
+			if(accountType == "atm"):
+				print("logged in user Mode")
+				self.loggedInGeneral = True
+				self.loggedInUser = True
+			elif(accountType == "agent"):
+				print("logged in teller mode")
+				self.loggedInGeneral = True
+				self.loggedInAgent = True
+			else: 
+				print("fatal error")
+
+	def logout(self):
+		self.accountType = None 
+		self.loggedInUser = False
+		self.loggedInAgent = False
+		self.loggedInGeneral = False
 
 
