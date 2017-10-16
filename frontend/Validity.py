@@ -56,7 +56,7 @@ class Validity:
 			print("fatal error")
 		
 
-
+#broken
 	def checkAccountName(self,accountName):
 		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) < 3 or accountName.startswith(" ") or accountName.endswith(" ")):
 			print("Invalid  name")

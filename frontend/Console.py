@@ -4,6 +4,7 @@ class Console:
 	accountNumber = None
 	amount = None
 	accountName = None
+	accountType = None
 
 	def commandInput(self):
 		
@@ -25,6 +26,12 @@ class Console:
 		accountNameIn = raw_input(("Account name:"))
 		self.accountName = accountNameIn
 		return self.accountName
+
+	def accountTypeInput(self):
+		accountTypeIn = raw_input(("Account type:"))
+		self.accountType = accountTypeIn
+		return self.accountType
+
 
 
 		
