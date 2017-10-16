@@ -1,34 +1,30 @@
 from Console import Console
 from Validity import Validity
-from Session import Session
 import sys, os
 
-def qbasic():
+def main():
 	userInput = Console()
 	tester = Validity()
-	newSession = Session()
+
+	accountNum = userInput.accountNumberInput()
+	print(accountNum)
+	tester.checkAccountNumber(accountNum) 
 
 	cmd = userInput.commandInput()
+	print(cmd)
+	tester.checkCommand(cmd,tester.validCommandsList)
+#broken
+	amt = userInput.amountIn()
+	print(amt)
+	tester.checkAmount(amt,True)
+
+	accName = userInput.accountNameInput()
+	print(accName)
+	tester.checkAccountName(accName)
 
 
-	if(cmd == "login"):
-		accType = userInput.accountTypeInput() 
-		newSession.login(accType)
-	elif(cmd == "logout"):
-		
-
-
-
-
-
-	
-
-
-
-
-	
-
-
-
-
-qbasic()
+accountsListFile = sys.argv[1]
+accountsList = open(accountsListFile, 'r').readlines()
+accountsList = map(int, accountsList)
+print accountsList
+main()
