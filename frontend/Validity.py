@@ -33,21 +33,33 @@ class Validity:
 			self.validAccountNumber = True
 
     #check if amount is valid
+    #this is currently broken
 	def checkAmount(self,amount, machineState):
-		if(machineState):
+		if(machineState == True):
 			if(amount < 0 or amount > 100000):
 				self.validAmount = False
-		if(machineState == False):
+				print("invalid amount1")
+			else:
+				print("valid amount2")
+				self.validAmount = True
+		elif(machineState == False):
 			if(amount < 0 or amount > 99999999):
+				print("invalid amount3")
 				self.validAmount = False
+			else:
+				print("valid Amount4")
+				self.validAmount = True
 		else:
-			self.validAmount = True
+			print("fatal error")
+		
 
 
 	def checkAccountName(self,accountName):
-		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) < 3 or accountName.startwith(" ") or accountName.endswith(" ")):
+		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) < 3 or accountName.startswith(" ") or accountName.endswith(" ")):
+			print("Invalid  name")
 			self.validAccountName = False
 		else:
+			print("Valid name")
 			self.validAccountName = True
 
 
