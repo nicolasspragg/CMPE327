@@ -1,0 +1,17 @@
+create
+1111111
+testname
+delete
+1111111
+testname
+deposit
+1111111
+100
+withdraw
+1111111
+100
+transfer
+1111111
+2222222
+100
+logout
