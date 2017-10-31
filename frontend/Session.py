@@ -10,12 +10,12 @@ class Session:
 
 	# called when user enters "login"
 	# asks for an account mode and updates the appropriate session variables
-	def login(self):
+	def login(self, testMode):
 		loggedInGeneral = self.loggedInGeneral
 		if loggedInGeneral == True:
 			print("already logged in")
 		else:
-			accountType = userInput.accountTypeInput() 
+			accountType = userInput.accountTypeInput(testMode) 
 			if(accountType == "atm"):
 				print("logged in user Mode")
 				self.loggedInGeneral = True

@@ -6,11 +6,11 @@ userInput = Console()
 # these methods write to the transaction summary file
 class Actions:
 	# create an account (teller mode only)
-	def create(self, session, transactionSummary):
+	def create(self, session, transactionSummary, testMode):
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
-				accountNumber = userInput.accountNumberInput()
-				accountName = userInput.accountNameInput()
+				accountNumber = userInput.accountNumberInput(testMode)
+				accountName = userInput.accountNameInput(testMode)
 				transactionSummary.write("NEW " + accountNumber + " 000 0000000 " + accountName + "\n")
 			else:
 				print "no permissions"

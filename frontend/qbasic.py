@@ -8,6 +8,10 @@ import sys, os
 atmOn = True
 accountsList = None
 transactionSummary = None
+testMode = False
+if len(sys.argv) == 4:
+	if (sys.argv[3] == "testMode"):
+		testMode = True
 
 # "Main program"
 # Overall program intention: QBasic is a program for atm users and bank tellers to
@@ -17,7 +21,7 @@ transactionSummary = None
 # How to run the program:
 	# python qbasic.py validaccounts.txt transactionsummary.txt
 def qbasic():
-	global atmOn, accountsList, transactionSummary
+	global atmOn, accountsList, transactionSummary, testMode
 
 	userInput = Console()
 	# tester = Validity()
@@ -27,18 +31,21 @@ def qbasic():
 	# infinite loop while bank machine is "on"
 	while atmOn == True:
 		# retrieve user input
-		cmd = userInput.commandInput()
+		try:
+			cmd = userInput.commandInput(testMode)
+		except EOFError:
+			cmd = "off"
 
 		# go through the possible input cases
 		if cmd == "off":
 			atmOn = False
 			# ends the program
 		elif(cmd == "login"):
-			currentSession.login()
+			currentSession.login(testMode)
 		elif(cmd == "logout"):
 			currentSession.logout(transactionSummary)
 		elif(cmd == "create"):
-			actions.create(currentSession, transactionSummary)
+			actions.create(currentSession, transactionSummary, testMode)
 		elif(cmd == "delete"):
 			actions.delete(currentSession, transactionSummary)
 		elif(cmd == "deposit"):
