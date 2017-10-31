@@ -17,11 +17,11 @@ class Session:
 		else:
 			accountType = userInput.accountTypeInput(testMode) 
 			if(accountType == "atm"):
-				print("logged in user Mode")
+				print("Logged in user account")
 				self.loggedInGeneral = True
 				self.loggedInUser = True
 			elif(accountType == "agent"):
-				print("logged in teller mode")
+				print("Logged in teller account")
 				self.loggedInGeneral = True
 				self.loggedInAgent = True
 			else: 
@@ -34,6 +34,7 @@ class Session:
 		self.loggedInUser = False
 		self.loggedInAgent = False
 		self.loggedInGeneral = False
+		print("Logging out")
 		transactionSummary.write("EOS 0000000 000 0000000 ***\n")
 
 

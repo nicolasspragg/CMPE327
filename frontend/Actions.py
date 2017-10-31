@@ -11,6 +11,7 @@ class Actions:
 			if session.loggedInAgent == True:
 				accountNumber = userInput.accountNumberInput(testMode)
 				accountName = userInput.accountNameInput(testMode)
+				print("Creating account " + accountNumber)
 				transactionSummary.write("NEW " + accountNumber + " 000 0000000 " + accountName + "\n")
 			else:
 				print "no permissions"

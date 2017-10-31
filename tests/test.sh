@@ -5,6 +5,14 @@ cd frontend
 	# for each test name
 		# run the thing and compare
 
-python qbasic.py validaccounts.txt transactionsummary.txt testMode << EOF
+output=$(python qbasic.py validaccounts.txt transactionsummary.txt testMode << EOF
 `cat ../tests/create/test_create`
-EOF
+EOF)
+
+expected_output=`cat ../tests/create/expected_output_create`
+if [ "$output" = "$expected_output" ];
+then
+	echo "pass"
+else
+	echo "fail"
+fi
