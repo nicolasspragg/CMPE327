@@ -14,9 +14,11 @@ EOF)
 expected_output=`cat tests/$1/expected_output_$2`
 if [ "$output" = "$expected_output" ];
 then
-	echo "pass output test"
+	echo "-----passed output test"
 else
-	echo "fail output test"
+	echo "-----failed output test"
+	echo "expected: $expected_output"
+	echo "got: $output"
 fi
 
 summary=`cat frontend/transactionsummary.txt`
@@ -24,8 +26,10 @@ expected_summary=`cat tests/$1/expected_summary_$2`
 
 if [ "$summary" = "$expected_summary" ];
 then
-	echo "pass summary test"
+	echo "-----passed summary test"
 else
-	echo "fail summary test"
+	echo "-----failed summary test"
+	echo "expected: $expected_summary"
+	echo "got: $summary"
 fi
 
