@@ -1,17 +1,17 @@
 # from the top level directory, run "sh tests/test.sh"
-cd frontend
+# cd frontend
 # empty transaction summary file
->transactionsummary.txt
+>frontend/transactionsummary.txt
 
 # for every test folder
 	# for each test name
 		# run the thing and compare
 
-output=$(python qbasic.py validaccounts.txt transactionsummary.txt testMode << EOF
-`cat ../tests/create/test_create`
+output=$(python frontend/qbasic.py frontend/validaccounts.txt frontend/transactionsummary.txt testMode << EOF
+`cat tests/$1/test_$2`
 EOF)
 
-expected_output=`cat ../tests/create/expected_output_create`
+expected_output=`cat tests/$1/expected_output_$2`
 if [ "$output" = "$expected_output" ];
 then
 	echo "pass output test"
@@ -19,8 +19,8 @@ else
 	echo "fail output test"
 fi
 
-summary=`cat transactionsummary.txt`
-expected_summary=`cat ../tests/create/expected_summary_create`
+summary=`cat frontend/transactionsummary.txt`
+expected_summary=`cat tests/$1/expected_summary_$2`
 
 if [ "$summary" = "$expected_summary" ];
 then
@@ -28,3 +28,4 @@ then
 else
 	echo "fail summary test"
 fi
+
