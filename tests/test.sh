@@ -7,7 +7,7 @@
 	# for each test name
 		# run the thing and compare
 
-output=$(python frontend/qbasic.py frontend/validaccounts.txt frontend/transactionsummary.txt testMode << EOF
+output=$(python frontend/qbasic.py tests/$1/accounts/$2 frontend/transactionsummary.txt testMode << EOF
 `cat tests/$1/test_$2`
 EOF)
 
