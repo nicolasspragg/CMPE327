@@ -47,13 +47,13 @@ def qbasic():
 		elif(cmd == "create"):
 			actions.create(currentSession, transactionSummary, testMode)
 		elif(cmd == "delete"):
-			actions.delete(currentSession, transactionSummary)
+			actions.delete(currentSession, transactionSummary, testMode)
 		elif(cmd == "deposit"):
-			actions.deposit(currentSession, transactionSummary)
+			actions.deposit(currentSession, transactionSummary, testMode)
 		elif(cmd == "withdraw"):
-			actions.withdraw(currentSession, transactionSummary)
+			actions.withdraw(currentSession, transactionSummary, testMode)
 		elif(cmd == "transfer"):
-			actions.transfer(currentSession, transactionSummary)
+			actions.transfer(currentSession, transactionSummary, testMode)
 
 	transactionSummary.close()
 

@@ -18,38 +18,38 @@ class Actions:
 		else:
 			print "not logged in"
 	# delete an account (teller mode only)
-	def delete(self, session, transactionSummary):
+	def delete(self, session, transactionSummary, testMode):
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
-				accountNumber = userInput.accountNumberInput()
-				accountName = userInput.accountNameInput()
+				accountNumber = userInput.accountNumberInput(testMode)
+				accountName = userInput.accountNameInput(testMode)
 				transactionSummary.write("DEL " + accountNumber + " 000 0000000 " + accountName + "\n")
 			else:
 				print "no permissions"
 		else:
 			print "not logged in"
 	# deposit an amount to an account
-	def deposit(self, session, transactionSummary):
+	def deposit(self, session, transactionSummary, testMode):
 		if session.loggedInGeneral == True:
-			accountNumber = userInput.accountNumberInput()
-			amount = userInput.amountInput()
+			accountNumber = userInput.accountNumberInput(testMode)
+			amount = userInput.amountInput(testMode)
 			transactionSummary.write("DEP " + accountNumber + " " + amount + " 0000000 ***\n")
 		else:
 			print "not logged in"
 	# withdraw an amount from an account
-	def withdraw(self, session, transactionSummary):
+	def withdraw(self, session, transactionSummary, testMode):
 		if session.loggedInGeneral == True:
-			accountNumber = userInput.accountNumberInput()
-			amount = userInput.amountInput()
+			accountNumber = userInput.accountNumberInput(testMode)
+			amount = userInput.amountInput(testMode)
 			transactionSummary.write("WDR " + accountNumber + " " + amount + " 0000000 ***\n")
 		else:
 			print "not logged in"
 	# transfer an amount between two accounts
-	def transfer(self, session, transactionSummary):
+	def transfer(self, session, transactionSummary, testMode):
 		if session.loggedInGeneral == True:
-			fromAccountNumber = userInput.fromAccountNumberInput()
-			toAccountNumber = userInput.toAccountNumberInput()
-			amount = userInput.amountInput()
+			fromAccountNumber = userInput.fromAccountNumberInput(testMode)
+			toAccountNumber = userInput.toAccountNumberInput(testMode)
+			amount = userInput.amountInput(testMode)
 			transactionSummary.write("XFR " + fromAccountNumber + " " + amount + " " + toAccountNumber + " ***\n")
 		else:
 			print "not logged in"

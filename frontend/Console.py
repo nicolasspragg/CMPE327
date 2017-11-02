@@ -37,14 +37,20 @@ class Console:
 		return self.fromAccountNumber
 	
 	# returns a to account number (for transfers)
-	def toAccountNumberInput(self):
-		accountNumberIn = raw_input(("Account number (to):"))
+	def toAccountNumberInput(self, testMode):
+		if testMode == False:
+			accountNumberIn = raw_input(("Account number (to):"))
+		else:
+			accountNumberIn = raw_input()
 		self.toAccountNumber = accountNumberIn
 		return self.toAccountNumber
 
 	# returns a transaction amount
-	def amountInput(self):
-		amountIn = raw_input(("amount:"))
+	def amountInput(self, testMode):
+		if testMode == False:
+			amountIn = raw_input(("amount:"))
+		else:
+			amountIn = raw_input()
 		self.amount = amountIn
 		return self.amount
 
