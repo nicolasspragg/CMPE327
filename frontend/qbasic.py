@@ -9,6 +9,7 @@ atmOn = True
 accountsList = None
 transactionSummary = None
 testMode = False
+totalAmount = 0 # for tracking withdrawals
 if len(sys.argv) == 4:
 	if (sys.argv[3] == "testMode"):
 		testMode = True
@@ -21,7 +22,7 @@ if len(sys.argv) == 4:
 # How to run the program:
 	# python qbasic.py validaccounts.txt transactionsummary.txt
 def qbasic():
-	global atmOn, accountsList, transactionSummary, testMode
+	global atmOn, accountsList, transactionSummary, totalAmount, testMode
 
 	userInput = Console()
 	# tester = Validity()
@@ -44,14 +45,18 @@ def qbasic():
 			currentSession.login(testMode)
 		elif(cmd == "logout"):
 			currentSession.logout(transactionSummary)
+			totalAmount = 0 # reset session's totalAmount
 		elif(cmd == "create"):
-			actions.create(currentSession, transactionSummary, testMode)
+			actions.create(currentSession, transactionSummary, accountsList, testMode)
 		elif(cmd == "delete"):
-			actions.delete(currentSession, transactionSummary, testMode)
+			actions.delete(currentSession, transactionSummary, accountsList, testMode)
 		elif(cmd == "deposit"):
 			actions.deposit(currentSession, transactionSummary, testMode)
 		elif(cmd == "withdraw"):
-			actions.withdraw(currentSession, transactionSummary, testMode)
+			accountNumber = userInput.accountNumberInput(testMode)
+			amount = userInput.amountInput(testMode)
+			totalAmount += int(amount)
+			actions.withdraw(currentSession, transactionSummary, accountNumber, amount, totalAmount, testMode)
 		elif(cmd == "transfer"):
 			actions.transfer(currentSession, transactionSummary, testMode)
 
