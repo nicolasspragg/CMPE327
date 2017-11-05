@@ -35,24 +35,26 @@ class Validity:
 
     #check if amount is valid
     #this is currently broken
-	def checkAmount(self,amount, machineState):
-		if(machineState == True):
-			if(int(amount) < 0 or int(amount) > 100000):
-				print("invalid amount1")
+	def checkAmount(self,amount, session):
+		if(session.loggedInUser == True):
+			if(int(amount) < 0):
+				print("Error: Can't withdraw negative number")
+				return False
+			elif(int(amount) > 100000):
+				print("Error: Max withdrawal allowed is $1,000")
 				return False
 			else:
-				# print("valid amount2")
 				return True
-		elif(machineState == False):
-			if(int(amount) < 0 or int(amount) > 99999999):
-				print("invalid amount3")
+		else:
+			if(int(amount) < 0):
+				print("Error: Can't withdraw negative number")
+				return False
+			elif(int(amount) > 99999999):
+				print("Error: Max withdrawal allowed is $999,999.99")
 				return False
 			else:
 				# print("valid Amount4")
 				return True
-		else:
-			print("fatal error")
-		
 
 #broken
 	def checkAccountName(self,accountName):

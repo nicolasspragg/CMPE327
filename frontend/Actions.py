@@ -38,21 +38,23 @@ class Actions:
 		else:
 			print "Error: Not logged in"
 	# deposit an amount to an account
-	def deposit(self, session, transactionSummary, deletedAccounts, newlyCreatedAccounts, testMode):
+	def deposit(self, session, transactionSummary, deletedAccounts, newlyCreatedAccounts, accountsList, testMode):
 		if session.loggedInGeneral == True:
 			accountNumber = userInput.accountNumberInput(testMode)
 			if accountNumber == "ignore":
 				return
-			amount = userInput.amountInput(testMode, session.loggedInUser)
+			amount = userInput.amountInput(testMode, session)
 			if amount == "ignore":
 				return
 			if (int(accountNumber) in deletedAccounts):
 				print("Error: actions on account " + accountNumber + " not allowed")
 			elif (int(accountNumber) in newlyCreatedAccounts):
 				print("Error: can't perform transactions to new account")
-			else:
+			elif (int(accountNumber) in accountsList):
 				print("Depositing $" + str(int(amount)/100) + " into " + accountNumber)
 				transactionSummary.write("DEP " + accountNumber + " " + amount+" 0000000 ***\n")
+			else:
+				print("Error: Account number does not exist")
 		else:
 			print "Error: Not logged in"
 	# withdraw an amount from an account
@@ -82,7 +84,7 @@ class Actions:
 			toAccountNumber = userInput.toAccountNumberInput(testMode)
 			if toAccountNumber == "ignore":
 				return
-			amount = userInput.amountInput(testMode, session.loggedInUser)
+			amount = userInput.amountInput(testMode, session)
 			if amount == "ignore":
 				return
 			if (int(fromAccountNumber) in accountsList):

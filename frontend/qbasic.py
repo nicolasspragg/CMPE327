@@ -67,7 +67,7 @@ def qbasic():
 				deletedAccounts.append(int(accountNumber))
 			actions.delete(currentSession, transactionSummary, accountsList, accountNumber, deletedAccounts, newlyCreatedAccounts, testMode)
 		elif(cmd == "deposit"):
-			actions.deposit(currentSession, transactionSummary, deletedAccounts, newlyCreatedAccounts, testMode)
+			actions.deposit(currentSession, transactionSummary, deletedAccounts, newlyCreatedAccounts, accountsList, testMode)
 		elif(cmd == "withdraw"):
 			accountNumber = 0000000
 			amount = 0
@@ -75,7 +75,7 @@ def qbasic():
 				accountNumber = userInput.accountNumberInput(testMode)
 				if accountNumber == "ignore":
 					continue
-				amount = userInput.amountInput(testMode, currentSession.loggedInUser)
+				amount = userInput.amountInput(testMode, currentSession)
 				if amount == "ignore":
 					continue
 				totalAmount += int(amount)
