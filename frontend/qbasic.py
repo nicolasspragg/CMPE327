@@ -8,7 +8,7 @@ import sys, os
 atmOn = True
 accountsList = None
 transactionSummary = None
-testMode = False
+testMode = False # this variable blocks any unwanted prompts from being outputted
 totalAmount = 0 # for tracking withdrawals
 deletedAccounts = []
 newlyCreatedAccounts = []

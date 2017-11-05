@@ -1,6 +1,13 @@
+# from the top level directory, run "sh tests/run_tests.sh"
+
+# this script orchestrates the running of each test
+# test types are organized into folders so that is why
+# there is repetition for each action
+
 # empty the test results file
 >tests/testResults
 
+# get the names of each test, and for each test, run the singular test script
 for testName in `sh tests/name.sh create`; do
 	echo ""
 	echo "----------$testName----------"
@@ -38,6 +45,9 @@ for testName in `sh tests/name.sh withdraw`; do
 done
 
 # read the test results file
+# count up the 1s and 0s in the results file that got
+# appended every test, depending on success or failure
+# and summarize the information
 echo ""
 echo "----------Results----------"
 echo "Passed: `(fgrep -o 1 tests/testResults | wc -l)`"

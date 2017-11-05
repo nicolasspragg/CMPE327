@@ -1,4 +1,4 @@
-
+# output the name of every test in an action's folder
 array=("$@")
 
 for i in "${array[@]}"
