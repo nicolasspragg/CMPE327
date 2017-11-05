@@ -6,10 +6,9 @@ userInput = Console()
 # these methods write to the transaction summary file
 class Actions:
 	# create an account (teller mode only)
-	def create(self, session, transactionSummary, accountsList, deletedAccounts, testMode):
+	def create(self, session, transactionSummary, accountsList, deletedAccounts, accountNumber, testMode):
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
-				accountNumber = userInput.accountNumberInput(testMode)
 				accountName = userInput.accountNameInput(testMode)
 				if (int(accountNumber) in deletedAccounts):
 					print("Error: actions on account " + accountNumber + " not allowed")
@@ -23,11 +22,13 @@ class Actions:
 		else:
 			print "Error: Not logged in"
 	# delete an account (teller mode only)
-	def delete(self, session, transactionSummary, accountsList, accountNumber, deletedAccounts, testMode):
+	def delete(self, session, transactionSummary, accountsList, accountNumber, deletedAccounts, newlyCreatedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
 				accountName = userInput.accountNameInput(testMode)
-				if (int(accountNumber) in accountsList):
+				if (int(accountNumber) in newlyCreatedAccounts):
+					print("Error: can't perform transactions to new account")
+				elif (int(accountNumber) in accountsList):
 					print("Deleted account " + accountNumber + " " + accountName)
 					transactionSummary.write("DEL " + accountNumber + " 000 0000000 " + accountName + "\n")
 				else:
@@ -37,19 +38,21 @@ class Actions:
 		else:
 			print "Error: Not logged in"
 	# deposit an amount to an account
-	def deposit(self, session, transactionSummary, deletedAccounts, testMode):
+	def deposit(self, session, transactionSummary, deletedAccounts, newlyCreatedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			accountNumber = userInput.accountNumberInput(testMode)
 			amount = userInput.amountInput(testMode)
 			if (int(accountNumber) in deletedAccounts):
 				print("Error: actions on account " + accountNumber + " not allowed")
+			elif (int(accountNumber) in newlyCreatedAccounts):
+				print("Error: can't perform transactions to new account")
 			else:
 				print("Depositing $" + str(int(amount)/100) + " into " + accountNumber)
 				transactionSummary.write("DEP " + accountNumber + " " + amount+" 0000000 ***\n")
 		else:
 			print "Error: Not logged in"
 	# withdraw an amount from an account
-	def withdraw(self, session, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, testMode):
+	def withdraw(self, session, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, newlyCreatedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			# totalAmount += int(amount)
 			if (session.loggedInUser == True and totalAmount > 100000):
@@ -57,20 +60,26 @@ class Actions:
 				print("Error: Max amount already withdrawn ($1000)")
 			elif (int(accountNumber) in deletedAccounts):
 				print("Error: actions on account " + accountNumber + " not allowed")
+			elif (int(accountNumber) in newlyCreatedAccounts):
+				print("Error: can't perform transactions to new account")
 			else:
 				print("Withdrawing $" + str(int(amount)/100) + " from " + accountNumber)
 				transactionSummary.write("WDR " + accountNumber + " " + amount + " 0000000 ***\n")
 		else:
 			print "Error: Not logged in"
 	# transfer an amount between two accounts
-	def transfer(self, session, transactionSummary, accountsList, deletedAccounts, testMode):
+	def transfer(self, session, transactionSummary, accountsList, deletedAccounts, newlyCreatedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			fromAccountNumber = userInput.fromAccountNumberInput(testMode)
 			toAccountNumber = userInput.toAccountNumberInput(testMode)
 			amount = userInput.amountInput(testMode)
 			if (int(fromAccountNumber) in accountsList):
 				if (int(toAccountNumber) in accountsList):
-					if (int(fromAccountNumber) in deletedAccounts):
+					if (int(fromAccountNumber) in newlyCreatedAccounts):
+						print("Error: can't perform transactions to new account")
+					elif (int(toAccountNumber) in newlyCreatedAccounts):
+						print("Error: can't perform transactions to new account")
+					elif (int(fromAccountNumber) in deletedAccounts):
 						print("Error: actions on account " + fromAccountNumber + " not allowed")
 					elif (int(toAccountNumber) in deletedAccounts):
 						print("Error: actions on account " + toAccountNumber + " not allowed")
