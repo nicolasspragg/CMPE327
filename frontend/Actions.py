@@ -43,7 +43,9 @@ class Actions:
 			accountNumber = userInput.accountNumberInput(testMode)
 			if accountNumber == "ignore":
 				return
-			amount = userInput.amountInput(testMode)
+			amount = userInput.amountInput(testMode, session.loggedInUser)
+			if amount == "ignore":
+				return
 			if (int(accountNumber) in deletedAccounts):
 				print("Error: actions on account " + accountNumber + " not allowed")
 			elif (int(accountNumber) in newlyCreatedAccounts):
@@ -80,7 +82,9 @@ class Actions:
 			toAccountNumber = userInput.toAccountNumberInput(testMode)
 			if toAccountNumber == "ignore":
 				return
-			amount = userInput.amountInput(testMode)
+			amount = userInput.amountInput(testMode, session.loggedInUser)
+			if amount == "ignore":
+				return
 			if (int(fromAccountNumber) in accountsList):
 				if (int(toAccountNumber) in accountsList):
 					if (int(fromAccountNumber) in newlyCreatedAccounts):

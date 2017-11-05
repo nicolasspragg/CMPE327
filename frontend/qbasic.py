@@ -75,7 +75,9 @@ def qbasic():
 				accountNumber = userInput.accountNumberInput(testMode)
 				if accountNumber == "ignore":
 					continue
-				amount = userInput.amountInput(testMode)
+				amount = userInput.amountInput(testMode, currentSession.loggedInUser)
+				if amount == "ignore":
+					continue
 				totalAmount += int(amount)
 			actions.withdraw(currentSession, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, newlyCreatedAccounts, accountsList, testMode)
 		elif(cmd == "transfer"):

@@ -33,7 +33,7 @@ class Console:
 			accountNumberIn = raw_input(("Account number:"))
 		else:
 			accountNumberIn = raw_input()
-		if (enforcer.checkAccountNumber(accountNumberIn) == True):
+		if (enforcer.checkAccountNumber(accountNumberIn, "") == True):
 			self.accountNumber = accountNumberIn
 			return self.accountNumber
 		else:
@@ -46,7 +46,7 @@ class Console:
 			accountNumberIn = raw_input(("Account number (from):"))
 		else:
 			accountNumberIn = raw_input()
-		if (enforcer.checkAccountNumber(accountNumberIn) == True):
+		if (enforcer.checkAccountNumber(accountNumberIn, "From ") == True):
 			self.accountNumber = accountNumberIn
 			return self.accountNumber
 		else:
@@ -59,20 +59,24 @@ class Console:
 			accountNumberIn = raw_input(("Account number (to):"))
 		else:
 			accountNumberIn = raw_input()
-		if (enforcer.checkAccountNumber(accountNumberIn) == True):
+		if (enforcer.checkAccountNumber(accountNumberIn, "To ") == True):
 			self.accountNumber = accountNumberIn
 			return self.accountNumber
 		else:
 			return "ignore"
 
 	# returns a transaction amount
-	def amountInput(self, testMode):
+	def amountInput(self, testMode, state):
+		global enforcer
 		if testMode == False:
 			amountIn = raw_input(("amount:"))
 		else:
 			amountIn = raw_input()
-		self.amount = amountIn
-		return self.amount
+		if (enforcer.checkAmount(amountIn, state) == True):
+			self.amount = amountIn
+			return self.amount
+		else:
+			return "ignore"
 
 	# returns an account name
 	def accountNameInput(self, testMode):

@@ -18,17 +18,17 @@ class Validity:
 			return False
 
 	# check if accountNumber is valid
-	def checkAccountNumber(self,accountNumber):
+	def checkAccountNumber(self,accountNumber, type):
 		numDigits = len(str((accountNumber)))
 		zerothDigit = str(accountNumber[0])
 		if(numDigits > 7):
-			print("Error: Account number too long")
+			print("Error: " + type + "Account number too long")
 			return False
 		elif(numDigits < 7):
-			print("Error: Account number too short")
+			print("Error: " + type + "Account number too short")
 			return False
 		elif(zerothDigit == "0"):
-			print("Error: Account number can't start with 0")
+			print("Error: " + type + "Account number can't start with 0")
 			return False
 		else:
 			return True
@@ -37,19 +37,19 @@ class Validity:
     #this is currently broken
 	def checkAmount(self,amount, machineState):
 		if(machineState == True):
-			if(amount < 0 or amount > 100000):
-				self.validAmount = False
+			if(int(amount) < 0 or int(amount) > 100000):
 				print("invalid amount1")
+				return False
 			else:
-				print("valid amount2")
-				self.validAmount = True
+				# print("valid amount2")
+				return True
 		elif(machineState == False):
-			if(amount < 0 or amount > 99999999):
+			if(int(amount) < 0 or int(amount) > 99999999):
 				print("invalid amount3")
-				self.validAmount = False
+				return False
 			else:
-				print("valid Amount4")
-				self.validAmount = True
+				# print("valid Amount4")
+				return True
 		else:
 			print("fatal error")
 		
