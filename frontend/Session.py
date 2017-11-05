@@ -13,19 +13,19 @@ class Session:
 	def login(self, testMode):
 		loggedInGeneral = self.loggedInGeneral
 		if loggedInGeneral == True:
-			print("already logged in")
+			print("Error: Already logged in")
 		else:
 			accountType = userInput.accountTypeInput(testMode) 
 			if(accountType == "atm"):
-				print("Logged in user account")
+				print("Logged in user mode")
 				self.loggedInGeneral = True
 				self.loggedInUser = True
 			elif(accountType == "agent"):
-				print("Logged in teller account")
+				print("Logged in teller mode")
 				self.loggedInGeneral = True
 				self.loggedInAgent = True
 			else: 
-				print("fatal error")
+				print("Error: invalid account type, please login as atm or agent")
 
 	# called when user enters "logout"
 	# sets all the session variables to false and writes to the transaction summary file
