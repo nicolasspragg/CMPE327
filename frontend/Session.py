@@ -17,11 +17,11 @@ class Session:
 		else:
 			accountType = userInput.accountTypeInput(testMode) 
 			if(accountType == "atm"):
-				print("Logged in user mode")
+				print("Logged in user account")
 				self.loggedInGeneral = True
 				self.loggedInUser = True
 			elif(accountType == "agent"):
-				print("Logged in teller mode")
+				print("Logged in teller account")
 				self.loggedInGeneral = True
 				self.loggedInAgent = True
 			else: 
@@ -30,11 +30,14 @@ class Session:
 	# called when user enters "logout"
 	# sets all the session variables to false and writes to the transaction summary file
 	def logout(self, transactionSummary):
+		if self.loggedInGeneral == True:
+			print("Logging out")
+		else:
+			print("Error: Not logged in")
 		self.accountType = None 
 		self.loggedInUser = False
 		self.loggedInAgent = False
 		self.loggedInGeneral = False
-		print("Logging out")
 		transactionSummary.write("EOS 0000000 000 0000000 ***\n")
 
 
