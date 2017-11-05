@@ -41,6 +41,8 @@ class Actions:
 	def deposit(self, session, transactionSummary, deletedAccounts, newlyCreatedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			accountNumber = userInput.accountNumberInput(testMode)
+			if accountNumber == "ignore":
+				return
 			amount = userInput.amountInput(testMode)
 			if (int(accountNumber) in deletedAccounts):
 				print("Error: actions on account " + accountNumber + " not allowed")
@@ -52,7 +54,7 @@ class Actions:
 		else:
 			print "Error: Not logged in"
 	# withdraw an amount from an account
-	def withdraw(self, session, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, newlyCreatedAccounts, testMode):
+	def withdraw(self, session, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, newlyCreatedAccounts, accountsList, testMode):
 		if session.loggedInGeneral == True:
 			# totalAmount += int(amount)
 			if (session.loggedInUser == True and totalAmount > 100000):
@@ -62,16 +64,22 @@ class Actions:
 				print("Error: actions on account " + accountNumber + " not allowed")
 			elif (int(accountNumber) in newlyCreatedAccounts):
 				print("Error: can't perform transactions to new account")
-			else:
+			elif (int(accountNumber) in accountsList):
 				print("Withdrawing $" + str(int(amount)/100) + " from " + accountNumber)
 				transactionSummary.write("WDR " + accountNumber + " " + amount + " 0000000 ***\n")
+			else:
+				print("Error: Account number does not exist")
 		else:
 			print "Error: Not logged in"
 	# transfer an amount between two accounts
 	def transfer(self, session, transactionSummary, accountsList, deletedAccounts, newlyCreatedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			fromAccountNumber = userInput.fromAccountNumberInput(testMode)
+			if fromAccountNumber == "ignore":
+				return
 			toAccountNumber = userInput.toAccountNumberInput(testMode)
+			if toAccountNumber == "ignore":
+				return
 			amount = userInput.amountInput(testMode)
 			if (int(fromAccountNumber) in accountsList):
 				if (int(toAccountNumber) in accountsList):

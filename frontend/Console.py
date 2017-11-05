@@ -1,3 +1,7 @@
+from Validity import Validity
+
+enforcer = Validity()
+
 # utility methods to read in commands/inputs from users
 class Console:
 	# transaction variables
@@ -11,39 +15,55 @@ class Console:
 
 	# returns a general command
 	def commandInput(self, testMode):
+		global enforcer
 		if testMode == False:
 			commandIn = raw_input(("Command:"))
 		else:
 			commandIn = raw_input()
-		self.command = commandIn
-		return self.command
+		if (enforcer.checkCommand(commandIn) == True):
+			self.command = commandIn
+			return self.command
+		else:
+			return "ignore"
 
 	# returns an account number
 	def accountNumberInput(self, testMode):
+		global enforcer
 		if testMode == False:
 			accountNumberIn = raw_input(("Account number:"))
 		else:
 			accountNumberIn = raw_input()
-		self.accountNumber = accountNumberIn
-		return self.accountNumber
+		if (enforcer.checkAccountNumber(accountNumberIn) == True):
+			self.accountNumber = accountNumberIn
+			return self.accountNumber
+		else:
+			return "ignore"
 	
 	# returns a from account number (for transfers)
 	def fromAccountNumberInput(self, testMode):
+		global enforcer
 		if testMode == False:
 			accountNumberIn = raw_input(("Account number (from):"))
 		else:
 			accountNumberIn = raw_input()
-		self.fromAccountNumber = accountNumberIn
-		return self.fromAccountNumber
+		if (enforcer.checkAccountNumber(accountNumberIn) == True):
+			self.accountNumber = accountNumberIn
+			return self.accountNumber
+		else:
+			return "ignore"
 	
 	# returns a to account number (for transfers)
 	def toAccountNumberInput(self, testMode):
+		global enforcer
 		if testMode == False:
 			accountNumberIn = raw_input(("Account number (to):"))
 		else:
 			accountNumberIn = raw_input()
-		self.toAccountNumber = accountNumberIn
-		return self.toAccountNumber
+		if (enforcer.checkAccountNumber(accountNumberIn) == True):
+			self.accountNumber = accountNumberIn
+			return self.accountNumber
+		else:
+			return "ignore"
 
 	# returns a transaction amount
 	def amountInput(self, testMode):

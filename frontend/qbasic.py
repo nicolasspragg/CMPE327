@@ -1,5 +1,4 @@
 from Console import Console
-from Validity import Validity
 from Session import Session
 from Actions import Actions
 import sys, os
@@ -43,6 +42,9 @@ def qbasic():
 		if cmd == "off":
 			atmOn = False
 			# ends the program
+		elif(cmd == "ignore"):
+			# input was invalid, do nothing
+			pass
 		elif(cmd == "login"):
 			currentSession.login(testMode)
 		elif(cmd == "logout"):
@@ -52,12 +54,16 @@ def qbasic():
 			accountNumber = 0000000
 			if(currentSession.loggedInAgent == True):
 				accountNumber = userInput.accountNumberInput(testMode)
+				if accountNumber == "ignore":
+					continue
 				newlyCreatedAccounts.append(int(accountNumber))
 			actions.create(currentSession, transactionSummary, accountsList, deletedAccounts, accountNumber, testMode)
 		elif(cmd == "delete"):
 			accountNumber = 0000000
 			if(currentSession.loggedInAgent == True):
 				accountNumber = userInput.accountNumberInput(testMode)
+				if accountNumber == "ignore":
+					continue
 				deletedAccounts.append(int(accountNumber))
 			actions.delete(currentSession, transactionSummary, accountsList, accountNumber, deletedAccounts, newlyCreatedAccounts, testMode)
 		elif(cmd == "deposit"):
@@ -67,9 +73,11 @@ def qbasic():
 			amount = 0
 			if(currentSession.loggedInGeneral == True):
 				accountNumber = userInput.accountNumberInput(testMode)
+				if accountNumber == "ignore":
+					continue
 				amount = userInput.amountInput(testMode)
 				totalAmount += int(amount)
-			actions.withdraw(currentSession, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, newlyCreatedAccounts, testMode)
+			actions.withdraw(currentSession, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, newlyCreatedAccounts, accountsList, testMode)
 		elif(cmd == "transfer"):
 			actions.transfer(currentSession, transactionSummary, accountsList, deletedAccounts, newlyCreatedAccounts, testMode)
 

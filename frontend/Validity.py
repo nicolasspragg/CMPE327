@@ -1,39 +1,37 @@
+validCommandsList = ['login','logout','create','delete','deposit','withdraw','transfer']
 
 class Validity:
 
-	validCommandsList = ['login','logout','createacct','deleteacct','deposit','withdraw','transfer']
 	validCommand = None
 	validAccountNumber = None
 	validAmount = None
 	validAccountName = None
 	machineState = True # machine mode 
 
-
-
-
 	#checks if command being tried is valid
-	def checkCommand(self,command,validCommandsList):
+	def checkCommand(self, command):
+		global validCommandsList
 		if command in validCommandsList:
-			print("valid command")
-			self.validCommand = True
+			return True
 		else:
-			print("invalid command")
-			self.validCommand = False
-
+			# print("invalid command")
+			return False
 
 	# check if accountNumber is valid
 	def checkAccountNumber(self,accountNumber):
 		numDigits = len(str((accountNumber)))
 		zerothDigit = str(accountNumber[0])
-		if(numDigits > 7 or numDigits < 7):
-			print("invalid account number")
-			self.validAccount = False
-		elif(zerothDigit == 0):
-			print("invalid account number")
-			self.validAccountNumber = False
+		if(numDigits > 7):
+			print("Error: Account number too long")
+			return False
+		elif(numDigits < 7):
+			print("Error: Account number too short")
+			return False
+		elif(zerothDigit == "0"):
+			print("Error: Account number can't start with 0")
+			return False
 		else:
-			print("valid account number")
-			self.validAccountNumber = True
+			return True
 
     #check if amount is valid
     #this is currently broken
