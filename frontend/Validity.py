@@ -38,19 +38,19 @@ class Validity:
 	def checkAmount(self,amount, session):
 		if(session.loggedInUser == True):
 			if(int(amount) < 0):
-				print("Error: Can't withdraw negative number")
+				print("Error: Can't use negative number")
 				return False
 			elif(int(amount) > 100000):
-				print("Error: Max withdrawal allowed is $1,000")
+				print("Error: Max allowed is $1,000")
 				return False
 			else:
 				return True
 		else:
 			if(int(amount) < 0):
-				print("Error: Can't withdraw negative number")
+				print("Error: Can't use negative number")
 				return False
 			elif(int(amount) > 99999999):
-				print("Error: Max withdrawal allowed is $999,999.99")
+				print("Error: Max allowed is $999,999.99")
 				return False
 			else:
 				# print("valid Amount4")

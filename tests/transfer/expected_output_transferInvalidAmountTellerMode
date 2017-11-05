@@ -1,4 +1,4 @@
-Logged in user account
-Error: Can’t transfer negative number
-Error: Max transfer amount allowed is $999,999.999
+Logged in teller account
+Error: Can’t use negative number
+Error: Max allowed is $999,999.99
 Logging out

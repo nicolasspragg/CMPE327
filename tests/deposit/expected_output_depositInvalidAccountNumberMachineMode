@@ -1,6 +1,6 @@
 Logged in user account
 Error: Account number can't start with 0
-Error: Account number too short
 Error: Account number too long
+Error: Account number too short
 Error: Account number does not exist
 Logging out
