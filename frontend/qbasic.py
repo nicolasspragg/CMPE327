@@ -1,5 +1,5 @@
 from Console import Console
-# from Validity import Validity
+from Validity import Validity
 from Session import Session
 from Actions import Actions
 import sys, os
@@ -10,6 +10,7 @@ accountsList = None
 transactionSummary = None
 testMode = False
 totalAmount = 0 # for tracking withdrawals
+deletedAccounts = []
 if len(sys.argv) == 4:
 	if (sys.argv[3] == "testMode"):
 		testMode = True
@@ -22,7 +23,7 @@ if len(sys.argv) == 4:
 # How to run the program:
 	# python qbasic.py validaccounts.txt transactionsummary.txt
 def qbasic():
-	global atmOn, accountsList, transactionSummary, totalAmount, testMode
+	global atmOn, accountsList, transactionSummary, totalAmount, deletedAccounts, testMode
 
 	userInput = Console()
 	# tester = Validity()
@@ -47,18 +48,25 @@ def qbasic():
 			currentSession.logout(transactionSummary)
 			totalAmount = 0 # reset session's totalAmount
 		elif(cmd == "create"):
-			actions.create(currentSession, transactionSummary, accountsList, testMode)
+			actions.create(currentSession, transactionSummary, accountsList, deletedAccounts, testMode)
 		elif(cmd == "delete"):
-			actions.delete(currentSession, transactionSummary, accountsList, testMode)
+			accountNumber = 0000000
+			if(currentSession.loggedInAgent == True):
+				accountNumber = userInput.accountNumberInput(testMode)
+				deletedAccounts.append(int(accountNumber))
+			actions.delete(currentSession, transactionSummary, accountsList, accountNumber, deletedAccounts, testMode)
 		elif(cmd == "deposit"):
-			actions.deposit(currentSession, transactionSummary, testMode)
+			actions.deposit(currentSession, transactionSummary, deletedAccounts, testMode)
 		elif(cmd == "withdraw"):
-			accountNumber = userInput.accountNumberInput(testMode)
-			amount = userInput.amountInput(testMode)
-			totalAmount += int(amount)
-			actions.withdraw(currentSession, transactionSummary, accountNumber, amount, totalAmount, testMode)
+			accountNumber = 0000000
+			amount = 0
+			if(currentSession.loggedInGeneral == True):
+				accountNumber = userInput.accountNumberInput(testMode)
+				amount = userInput.amountInput(testMode)
+				totalAmount += int(amount)
+			actions.withdraw(currentSession, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, testMode)
 		elif(cmd == "transfer"):
-			actions.transfer(currentSession, transactionSummary, testMode)
+			actions.transfer(currentSession, transactionSummary, accountsList, deletedAccounts, testMode)
 
 	transactionSummary.close()
 
