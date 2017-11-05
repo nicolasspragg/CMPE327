@@ -6,12 +6,14 @@ userInput = Console()
 # these methods write to the transaction summary file
 class Actions:
 	# create an account (teller mode only)
-	def create(self, session, transactionSummary, accountsList, testMode):
+	def create(self, session, transactionSummary, accountsList, deletedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
 				accountNumber = userInput.accountNumberInput(testMode)
 				accountName = userInput.accountNameInput(testMode)
-				if (int(accountNumber) in accountsList):
+				if (int(accountNumber) in deletedAccounts):
+					print("Error: actions on account " + accountNumber + " not allowed")
+				elif (int(accountNumber) in accountsList):
 					print("Error: account already exists")
 				else:
 					print("Creating account " + accountNumber)
@@ -21,10 +23,9 @@ class Actions:
 		else:
 			print "Error: Not logged in"
 	# delete an account (teller mode only)
-	def delete(self, session, transactionSummary, accountsList, testMode):
+	def delete(self, session, transactionSummary, accountsList, accountNumber, deletedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
-				accountNumber = userInput.accountNumberInput(testMode)
 				accountName = userInput.accountNameInput(testMode)
 				if (int(accountNumber) in accountsList):
 					print("Deleted account " + accountNumber + " " + accountName)
@@ -36,33 +37,49 @@ class Actions:
 		else:
 			print "Error: Not logged in"
 	# deposit an amount to an account
-	def deposit(self, session, transactionSummary, testMode):
+	def deposit(self, session, transactionSummary, deletedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			accountNumber = userInput.accountNumberInput(testMode)
 			amount = userInput.amountInput(testMode)
-			print("Depositing $" + str(int(amount)/100) + " into " + accountNumber)
-			transactionSummary.write("DEP " + accountNumber + " " + amount+" 0000000 ***\n")
+			if (int(accountNumber) in deletedAccounts):
+				print("Error: actions on account " + accountNumber + " not allowed")
+			else:
+				print("Depositing $" + str(int(amount)/100) + " into " + accountNumber)
+				transactionSummary.write("DEP " + accountNumber + " " + amount+" 0000000 ***\n")
 		else:
 			print "Error: Not logged in"
 	# withdraw an amount from an account
-	def withdraw(self, session, transactionSummary, accountNumber, amount, totalAmount, testMode):
+	def withdraw(self, session, transactionSummary, accountNumber, amount, totalAmount, deletedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			# totalAmount += int(amount)
 			if (session.loggedInUser == True and totalAmount > 100000):
 				# machine mode has a max withdrawal of $1000
 				print("Error: Max amount already withdrawn ($1000)")
+			elif (int(accountNumber) in deletedAccounts):
+				print("Error: actions on account " + accountNumber + " not allowed")
 			else:
 				print("Withdrawing $" + str(int(amount)/100) + " from " + accountNumber)
 				transactionSummary.write("WDR " + accountNumber + " " + amount + " 0000000 ***\n")
 		else:
 			print "Error: Not logged in"
 	# transfer an amount between two accounts
-	def transfer(self, session, transactionSummary, testMode):
+	def transfer(self, session, transactionSummary, accountsList, deletedAccounts, testMode):
 		if session.loggedInGeneral == True:
 			fromAccountNumber = userInput.fromAccountNumberInput(testMode)
 			toAccountNumber = userInput.toAccountNumberInput(testMode)
 			amount = userInput.amountInput(testMode)
-			print("Transferring $" + str(int(amount)/100) + " from " + fromAccountNumber +" to " + toAccountNumber )
-			transactionSummary.write("XFR " + fromAccountNumber + " " + amount + " " + toAccountNumber + " ***\n")
+			if (int(fromAccountNumber) in accountsList):
+				if (int(toAccountNumber) in accountsList):
+					if (int(fromAccountNumber) in deletedAccounts):
+						print("Error: actions on account " + fromAccountNumber + " not allowed")
+					elif (int(toAccountNumber) in deletedAccounts):
+						print("Error: actions on account " + toAccountNumber + " not allowed")
+					else:
+						print("Transferring $" + str(int(amount)/100) + " from " + fromAccountNumber +" to " + toAccountNumber )
+						transactionSummary.write("XFR " + fromAccountNumber + " " + amount + " " + toAccountNumber + " ***\n")
+				else:
+					print("Error: To Account number does not exist")
+			else:
+				print("Error: From Account number does not exist")
 		else:
 			print "Error: Not logged in"
