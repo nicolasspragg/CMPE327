@@ -56,14 +56,24 @@ class Validity:
 				# print("valid Amount4")
 				return True
 
-#broken
-	def checkAccountName(self,accountName):
-		if(accountName.isalnum() == False or len(accountName) > 30 or len(accountName) < 3 or accountName.startswith(" ") or accountName.endswith(" ")):
-			print("Invalid  name")
-			self.validAccountName = False
+	def checkAccountName(self, accountName):
+		if accountName.startswith(" "):
+			print("Error: Space before account name")
+			return False
+		elif len(accountName) < 3:
+			print("Error: Account name too short")
+			return False
+		elif len(accountName) > 30:
+			print("Error: Account name too long")
+			return False
+		elif accountName.endswith(" "):
+			print("Error: Space at end of account name")
+			return False
+		elif accountName.isalnum() == False:
+			print("Error: illegal character in account name")
+			return False
 		else:
-			print("Valid name")
-			self.validAccountName = True
+			return True
 
 
 

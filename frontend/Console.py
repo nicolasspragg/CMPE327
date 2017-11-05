@@ -80,12 +80,16 @@ class Console:
 
 	# returns an account name
 	def accountNameInput(self, testMode):
+		global enforcer
 		if testMode == False:
 			accountNameIn = raw_input(("Account name:"))
 		else:
 			accountNameIn = raw_input()
-		self.accountName = accountNameIn
-		return self.accountName
+		if (enforcer.checkAccountName(accountNameIn) == True):
+			self.accountName = accountNameIn
+			return self.accountName
+		else:
+			return "ignore"
 
 	# returns an account type (for logins)
 	def accountTypeInput(self, testMode):

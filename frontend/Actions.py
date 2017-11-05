@@ -10,6 +10,8 @@ class Actions:
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
 				accountName = userInput.accountNameInput(testMode)
+				if accountName == "ignore":
+					return
 				if (int(accountNumber) in deletedAccounts):
 					print("Error: actions on account " + accountNumber + " not allowed")
 				elif (int(accountNumber) in accountsList):
@@ -26,6 +28,8 @@ class Actions:
 		if session.loggedInGeneral == True:
 			if session.loggedInAgent == True:
 				accountName = userInput.accountNameInput(testMode)
+				if accountName == "ignore":
+					return
 				if (int(accountNumber) in newlyCreatedAccounts):
 					print("Error: can't perform transactions to new account")
 				elif (int(accountNumber) in accountsList):
