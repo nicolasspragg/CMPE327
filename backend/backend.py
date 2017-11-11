@@ -5,15 +5,15 @@ import sys, os
 currentValidAccountList = None
 transactionSummary = None
 currentMasterAccountsList = None
-newMasterAccountsFile = None
-newValidAccountsFile = None
+newMasterAccountsFile = []
+newValidAccountsFile = []
 tempAccountNumbers = []
 
 def loadValidAccountList():
 	global currentValidAccountList
 	currentValidAccountListFile = sys.argv[1]
 	currentValidAccountList = open(currentValidAccountListFile, 'r').readlines()
-	currentValidAccountList = map(int, currentValidAccountList)
+	currentValidAccountList = map(str.rstrip, currentValidAccountList)
 
 
 def loadCurrentMasterAccountsList():
@@ -34,11 +34,10 @@ def parseTransactionSummary():
 
 	for item in transactionSummary:
 		action = item[:3]
-		accountNumInTs = item[5:11]
+		accountNumInTs = item[4:11]
 		amount = item[13:15]
 		accountToNumber = item[17:23]
 		accountName = item[24:]
-		print(accountName)
 
 		if(action == "NEW"):
 			#call create handler
@@ -61,25 +60,22 @@ def parseTransactionSummary():
 
 def handleCreate(accountNumInTs, accountName):
 	global tempAccountNumbers, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
-
-	if(accountNumInTs in currentValidAccountList):
+	print accountNumInTs
+	print currentValidAccountList
+	if(accountNumInTs in currentValidAccountList or accountNumInTs in tempAccountNumbers):
 		#failure
 		print("Not a unique account number")
 		return
 	else:
-		#add to lists etc etc
+		#add to lists
+		newValidAccountsFile.append(int(accountNumInTs))
+		newMasterAccountsFile.append(str(accountNumInTs + " 000 " + accountName))
+		print newValidAccountsFile
+		print newMasterAccountsFile
+		
+	tempAccountNumbers.append(int(accountNumInTs))
+	print
 
-
-
-
-
-
-
-
-
-
-	#end
-	tempAccountNumbers.append(accountNumInTs)
 
 
 
