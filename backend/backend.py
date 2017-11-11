@@ -7,9 +7,7 @@ transactionSummary = None
 currentMasterAccountsList = None
 newMasterAccountsFile = None
 newValidAccountsFile = None
-
-
-
+tempAccountNumbers = []
 
 def loadValidAccountList():
 	global currentValidAccountList
@@ -30,33 +28,46 @@ def loadTransActionSummary():
 	transactionSummary = open(transactionSummaryFile, 'r').readlines()
 	transactionSummary = map(str, transactionSummary)
 
-
-	
 def parseTransactionSummary(): 
-	global transactionSummary, actionList
+	global transactionSummary
 
-	print transactionSummary
 
 	for item in transactionSummary:
-		if(item[:3] == "NEW"):
+		action = item[:3]
+		accountNumInTs = item[5:11]
+		amount = item[13:15]
+		accountToNumber = item[17:23]
+		accountName = item[24:]
+		print(accountName)
+
+		if(action == "NEW"):
 			#call create handler
-			print("found new")
-		elif(item[:3] == "DEL"): 
+			handleCreate(accountNumInTs, accountName)
+		elif(action == "DEL"): 
 			#call delete handler
-			print("found del")
-		elif(item[:3] == "DEP"):
+			handleDelete()
+		elif(action == "DEP"):
 			#call deposit handler
-			print("found dep")
-		elif(item[:3] == "WDR"):
+			handleDeposit()
+		elif(action == "WDR"):
 			#call withdraw handler
-			print("found withdraw")
-		elif(item[:3] == "XFR"):
+			handleWithdraw()
+		elif(action == "XFR"):
 			#call transfer handler
-			print("found transfer")
-		elif(item[:3] == "EOS"):
+			handleTransfer()
+		elif(action == "EOS"):
 			#end of file 
 			return
 
+def handleCreate(accountNumInTs, accountName):
+	global tempAccountNumbers, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
+
+	if(accountNumInTs in currentValidAccountList):
+		#failure
+		print("Not a unique account number")
+		return
+	else:
+		#add to lists etc etc
 
 
 
@@ -67,8 +78,8 @@ def parseTransactionSummary():
 
 
 
-
-
+	#end
+	tempAccountNumbers.append(accountNumInTs)
 
 
 
