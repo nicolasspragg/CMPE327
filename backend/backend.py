@@ -61,7 +61,6 @@ def parseTransactionSummary():
 def handleCreate(accountNumInTs, accountName):
 	global tempAccountNumbers, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
 	print accountNumInTs
-	print currentValidAccountList
 	if(accountNumInTs in currentValidAccountList or accountNumInTs in tempAccountNumbers):
 		#failure
 		print("Not a unique account number")
@@ -69,12 +68,13 @@ def handleCreate(accountNumInTs, accountName):
 	else:
 		#add to lists
 		newValidAccountsFile.append(int(accountNumInTs))
-		newMasterAccountsFile.append(str(accountNumInTs + " 000 " + accountName))
+		newMasterAccountsFile.append(accountNumInTs + " 000 " + accountName)
 		print newValidAccountsFile
 		print newMasterAccountsFile
+		tempAccountNumbers.append(accountNumInTs)
+		print (tempAccountNumbers)
 		
-	tempAccountNumbers.append(int(accountNumInTs))
-	print
+	
 
 
 
