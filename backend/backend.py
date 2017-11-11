@@ -66,7 +66,6 @@ def handleCreate(accountNumInTs, accountName):
 	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
 	if(accountNumInTs in newMasterAccountsFile or accountNumInTs in recentlyCreated):
 		#failure
-		print("Not a unique account number")
 		return
 	else:
 		#add to lists
@@ -76,28 +75,36 @@ def handleCreate(accountNumInTs, accountName):
 		
 
 def handleDelete(accountNumInTs, accountName):
-	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
+	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap
+	name = numToNameMap[accountNumInTs]
+	name = name.strip()
+	accountName = accountName.strip()
+	print numToNameMap
+	print name
+	print accountName
+
+	if(name != accountName):
+		print("Not a match ")
+		return
+		
+	else:
+		print("ok")
+		 
+
+	
+	
 	
 
 
-
-
-
-
-
-
-
-	
 	
 def mapNumToName():
 	global newMasterAccountsFile, numToNameMap
-
 	for item in newMasterAccountsFile:
 		accountNumber = item[:7]
 		accountName = item [12:]
 		numToNameMap[accountNumber] = accountName
 
-	print numToNameMap
+	
 
 
 	
@@ -119,5 +126,5 @@ loadValidAccountList()
 loadCurrentMasterAccountsList()
 loadTransActionSummary()
 mapNumToName()
-#parseTransactionSummary()
+parseTransactionSummary()
 
