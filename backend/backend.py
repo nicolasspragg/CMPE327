@@ -23,7 +23,7 @@ def loadCurrentMasterAccountsList():
 	global currentMasterAccountsList, newMasterAccountsFile
 	currentMasterAccountsListFile = sys.argv[2]
 	currentMasterAccountsList = open(currentMasterAccountsListFile, 'r').readlines()
-	currentMasterAccountsList = map(str, currentMasterAccountsList)
+	currentMasterAccountsList = map(str.rstrip, currentMasterAccountsList)
 	newMasterAccountsFile = currentMasterAccountsList[:]
 
 def loadTransActionSummary():
@@ -64,7 +64,7 @@ def parseTransactionSummary():
 
 def handleCreate(accountNumInTs, accountName):
 	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
-	if(accountNumInTs in currentValidAccountList or accountNumInTs in recentlyCreated):
+	if(accountNumInTs in newMasterAccountsFile or accountNumInTs in recentlyCreated):
 		#failure
 		print("Not a unique account number")
 		return
@@ -90,7 +90,16 @@ def handleDelete(accountNumInTs, accountName):
 	
 	
 def mapNumToName():
-	print newMasterAccountsFile
+	global newMasterAccountsFile, numToNameMap
+
+	for item in newMasterAccountsFile:
+		accountNumber = item[:7]
+		accountName = item [12:]
+		numToNameMap[accountNumber] = accountName
+
+	print numToNameMap
+
+
 	
 
 
