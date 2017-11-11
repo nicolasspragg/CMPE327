@@ -1,26 +1,30 @@
-import sys, os
+import sys, os, copy
 
 #global variables
 
 currentValidAccountList = None
 transactionSummary = None
 currentMasterAccountsList = None
-newMasterAccountsFile = []
+newMasterAccountsFile = None
 newValidAccountsFile = []
-tempAccountNumbers = []
+numToNameMap = {}
+recentlyCreated = []
+recentlyDeleted = []
 
 def loadValidAccountList():
 	global currentValidAccountList
 	currentValidAccountListFile = sys.argv[1]
 	currentValidAccountList = open(currentValidAccountListFile, 'r').readlines()
 	currentValidAccountList = map(str.rstrip, currentValidAccountList)
+	newValidAccountsFile = currentValidAccountList[:]
 
 
 def loadCurrentMasterAccountsList():
-	global currentMasterAccountsList
+	global currentMasterAccountsList, newMasterAccountsFile
 	currentMasterAccountsListFile = sys.argv[2]
 	currentMasterAccountsList = open(currentMasterAccountsListFile, 'r').readlines()
 	currentMasterAccountsList = map(str, currentMasterAccountsList)
+	newMasterAccountsFile = currentMasterAccountsList[:]
 
 def loadTransActionSummary():
 	global transactionSummary
@@ -44,7 +48,7 @@ def parseTransactionSummary():
 			handleCreate(accountNumInTs, accountName)
 		elif(action == "DEL"): 
 			#call delete handler
-			handleDelete()
+			handleDelete(accountNumInTs, accountName)
 		elif(action == "DEP"):
 			#call deposit handler
 			handleDeposit()
@@ -59,9 +63,8 @@ def parseTransactionSummary():
 			return
 
 def handleCreate(accountNumInTs, accountName):
-	global tempAccountNumbers, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
-	print accountNumInTs
-	if(accountNumInTs in currentValidAccountList or accountNumInTs in tempAccountNumbers):
+	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
+	if(accountNumInTs in currentValidAccountList or accountNumInTs in recentlyCreated):
 		#failure
 		print("Not a unique account number")
 		return
@@ -69,10 +72,34 @@ def handleCreate(accountNumInTs, accountName):
 		#add to lists
 		newValidAccountsFile.append(int(accountNumInTs))
 		newMasterAccountsFile.append(accountNumInTs + " 000 " + accountName)
-		print newValidAccountsFile
-		print newMasterAccountsFile
-		tempAccountNumbers.append(accountNumInTs)
-		print (tempAccountNumbers)
+		recentlyCreated.append(accountNumInTs)
+		
+
+def handleDelete(accountNumInTs, accountName):
+	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
+	
+
+
+
+
+
+
+
+
+
+	
+	
+def mapNumToName():
+	print newMasterAccountsFile
+	
+
+
+	
+
+
+
+
+
 		
 	
 
@@ -82,5 +109,6 @@ def handleCreate(accountNumInTs, accountName):
 loadValidAccountList()
 loadCurrentMasterAccountsList()
 loadTransActionSummary()
-parseTransactionSummary()
+mapNumToName()
+#parseTransactionSummary()
 
