@@ -64,8 +64,8 @@ def parseTransactionSummary():
 			return
 
 def handleCreate(accountNumInTs, accountName):
-	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile
-	if(accountNumInTs in newMasterAccountsFile or accountNumInTs in recentlyCreated):
+	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile, recentlyDeleted
+	if(accountNumInTs in newMasterAccountsFile or accountNumInTs in recentlyCreated or accountNumInTs in recentlyDeleted):
 		#failure
 		return
 	else:
