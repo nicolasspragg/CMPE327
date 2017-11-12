@@ -40,7 +40,7 @@ def parseTransactionSummary():
 	for item in transactionSummary:
 		action = item[:3]
 		accountNumInTs = item[4:11]
-		amount = item[13:15]
+		amount = item.split()[2]
 		accountToNumber = item[17:23]
 		accountName = item[24:]
 
@@ -52,7 +52,7 @@ def parseTransactionSummary():
 			handleDelete(accountNumInTs, accountName)
 		elif(action == "DEP"):
 			#call deposit handler
-			handleDeposit()
+			handleDeposit(accountNumInTs, amount)
 		elif(action == "WDR"):
 			#call withdraw handler
 			handleWithdraw()
@@ -95,12 +95,28 @@ def handleDelete(accountNumInTs, accountName):
 			except ValueError:
 				pass
 			recentlyDeleted.append(accountNumInTs)
-			print newMasterAccountsFile
-			print recentlyCreated
-			print recentlyDeleted
+			#print newMasterAccountsFile
+			#print recentlyCreated
+			#print recentlyDeleted
 		else:
-			print("account must have no funds")
+			#print("account must have no funds")
 			return 
+
+
+
+def handleDeposit(accountNumInTs, amount):
+	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
+	print accToAmountMap
+	if(accountNumInTs not in recentlyDeleted):
+		name = numToNameMap[accountNumInTs]
+		oldAmount = accToAmountMap[accountNumInTs]
+		index = newMasterAccountsFile.index(accountNumInTs + " " + oldAmount + " " + name)
+		newMasterAccountsFile[index] = (accountNumInTs +" " + amount + " " + name)
+		mapAccountNumToAmount()
+	else:
+		print("account has been deleted can't deposit")
+
+
 
 
 		 	
