@@ -103,14 +103,7 @@ def handleDelete(accountNumInTs, accountName):
 			return 
 
 
-		 
-
-	
-	
-	
-
-
-	
+		 	
 def mapNumToName():
 	global newMasterAccountsFile, numToNameMap
 	for item in newMasterAccountsFile:
@@ -126,10 +119,6 @@ def mapAccountNumToAmount():
 		accToAmountMap[accountNumber] = amount
 
 	
-
-
-
-
 
 loadValidAccountList()
 loadCurrentMasterAccountsList()
