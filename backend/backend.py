@@ -8,6 +8,7 @@ currentMasterAccountsList = None
 newMasterAccountsFile = None
 newValidAccountsFile = []
 numToNameMap = {}
+accToAmountMap = {}
 recentlyCreated = []
 recentlyDeleted = []
 
@@ -75,20 +76,33 @@ def handleCreate(accountNumInTs, accountName):
 		
 
 def handleDelete(accountNumInTs, accountName):
-	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap
+	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
 	name = numToNameMap[accountNumInTs]
 	name = name.strip()
 	accountName = accountName.strip()
-	print numToNameMap
-	print name
-	print accountName
-
+	
 	if(name != accountName):
 		print("Not a match ")
 		return
 		
 	else:
-		print("ok")
+		amountInAccount = accToAmountMap[accountNumInTs]
+		if (int(amountInAccount) == 000):
+			#can delete
+			newMasterAccountsFile.remove(accountNumInTs + " 000 " +accountName)
+			try:
+				recentlyCreated.remove(accountNumInTs)
+			except ValueError:
+				pass
+			recentlyDeleted.append(accountNumInTs)
+			print newMasterAccountsFile
+			print recentlyCreated
+			print recentlyDeleted
+		else:
+			print("account must have no funds")
+			return 
+
+
 		 
 
 	
@@ -104,20 +118,15 @@ def mapNumToName():
 		accountName = item [12:]
 		numToNameMap[accountNumber] = accountName
 
+def mapAccountNumToAmount():
+	global newMasterAccountsFile, accToAmountMap
+	for item in newMasterAccountsFile:
+		accountNumber = item[:7]
+		amount = item.split()[1]
+		accToAmountMap[accountNumber] = amount
+
 	
 
-
-	
-
-
-	
-
-
-
-
-
-		
-	
 
 
 
@@ -126,5 +135,6 @@ loadValidAccountList()
 loadCurrentMasterAccountsList()
 loadTransActionSummary()
 mapNumToName()
+mapAccountNumToAmount()
 parseTransactionSummary()
 
