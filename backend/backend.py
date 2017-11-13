@@ -31,18 +31,18 @@ def loadTransActionSummary():
 	global transactionSummary
 	transactionSummaryFile = sys.argv[3]
 	transactionSummary = open(transactionSummaryFile, 'r').readlines()
-	transactionSummary = map(str, transactionSummary)
+	transactionSummary = map(str.rstrip, transactionSummary)
 
 def parseTransactionSummary(): 
 	global transactionSummary
 
 
 	for item in transactionSummary:
-		action = item[:3]
-		accountNumInTs = item[4:11]
+		action = item.split()[0]
+		accountNumInTs = item.split()[1]
 		amount = item.split()[2]
-		accountToNumber = item[17:23]
-		accountName = item[24:]
+		accountToNumber = item.split()[3]
+		accountName = item.split()[4]
 
 		if(action == "NEW"):
 			#call create handler
@@ -55,7 +55,7 @@ def parseTransactionSummary():
 			handleDeposit(accountNumInTs, amount)
 		elif(action == "WDR"):
 			#call withdraw handler
-			handleWithdraw()
+			handleWithdraw(accountNumInTs, amount)
 		elif(action == "XFR"):
 			#call transfer handler
 			handleTransfer()
@@ -67,12 +67,14 @@ def handleCreate(accountNumInTs, accountName):
 	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile, recentlyDeleted
 	if(accountNumInTs in newMasterAccountsFile or accountNumInTs in recentlyCreated or accountNumInTs in recentlyDeleted):
 		#failure
+		print("not unique")
 		return
 	else:
 		#add to lists
 		newValidAccountsFile.append(int(accountNumInTs))
 		newMasterAccountsFile.append(accountNumInTs + " 000 " + accountName)
 		recentlyCreated.append(accountNumInTs)
+
 		
 
 def handleDelete(accountNumInTs, accountName):
@@ -95,6 +97,7 @@ def handleDelete(accountNumInTs, accountName):
 			except ValueError:
 				pass
 			recentlyDeleted.append(accountNumInTs)
+			mapAccountNumToAmount()
 			#print newMasterAccountsFile
 			#print recentlyCreated
 			#print recentlyDeleted
@@ -125,10 +128,35 @@ def handleDeposit(accountNumInTs, amount):
 		print newMasterAccountsFile
 	else:
 		print("account has been deleted can't deposit")
+		return
 
 
 def handleWithdraw(accountNumInTs, amount):
-	print "je"
+	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
+
+	if(accountNumInTs not in recentlyDeleted):
+		name = numToNameMap[accountNumInTs]
+		oldAmount = accToAmountMap[accountNumInTs]
+		index = newMasterAccountsFile.index(accountNumInTs + " " + oldAmount + " " + name)
+
+		amount = int(amount)
+		oldAmount = int(oldAmount)
+		print amount
+		print oldAmount
+
+		amount = oldAmount - amount
+
+		if(amount < 0):
+			print("can't make account negative")
+			return
+		else:
+			amount = str(amount)
+			newMasterAccountsFile[index] = (accountNumInTs +" " + amount + " " + name)
+			mapAccountNumToAmount()
+	else:
+		print("account has been deleted can't withdraw")
+		return
+	
 
 
 
