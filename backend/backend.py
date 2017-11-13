@@ -111,10 +111,24 @@ def handleDeposit(accountNumInTs, amount):
 		name = numToNameMap[accountNumInTs]
 		oldAmount = accToAmountMap[accountNumInTs]
 		index = newMasterAccountsFile.index(accountNumInTs + " " + oldAmount + " " + name)
+
+		amount = int(amount)
+		oldAmount = int(oldAmount)
+
+		amount += oldAmount
+
+		amount = str(amount)
+
+
 		newMasterAccountsFile[index] = (accountNumInTs +" " + amount + " " + name)
 		mapAccountNumToAmount()
+		print newMasterAccountsFile
 	else:
 		print("account has been deleted can't deposit")
+
+
+def handleWithdraw(accountNumInTs, amount):
+	print "je"
 
 
 
