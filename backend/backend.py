@@ -58,7 +58,7 @@ def parseTransactionSummary():
 			handleWithdraw(accountNumInTs, amount)
 		elif(action == "XFR"):
 			#call transfer handler
-			handleTransfer()
+			handleTransfer(accountNumInTs, amount, accountToNumber)
 		elif(action == "EOS"):
 			#end of file 
 			return
@@ -158,7 +158,43 @@ def handleWithdraw(accountNumInTs, amount):
 		return
 	
 
+def handleTransfer(accountNumInTs, amount, accountToNumber):
+	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
+	print accToAmountMap
+	if(accountNumInTs not in recentlyDeleted):
+		if(accountToNumber not in recentlyDeleted):
+			name = numToNameMap[accountNumInTs]
+			nameTo = numToNameMap[accountToNumber]
+			oldAmount = accToAmountMap[accountNumInTs]
+			oldAmountTo = accToAmountMap[accountToNumber]
+			index = newMasterAccountsFile.index(accountNumInTs + " " + oldAmount + " " + name)
+			indexTo = newMasterAccountsFile.index(accountToNumber + " " + oldAmountTo + " " + nameTo)
 
+			amount = int(amount)
+			oldAmount = int(oldAmount)
+			oldAmountTo = int(oldAmountTo)
+
+			amountTo = oldAmountTo + amount
+			oldAmount -= amount
+
+			if oldAmount < 0:
+				print("can't make account negative")
+				return
+			else:
+				amountTo = str(amountTo)
+				oldAmount = str(oldAmount)
+
+
+				newMasterAccountsFile[index] = (accountNumInTs +" " + oldAmount + " " + name)
+				newMasterAccountsFile[indexTo] = (accountToNumber +" " + amountTo + " " + nameTo)
+				mapAccountNumToAmount()
+				print newMasterAccountsFile
+		else:
+			print("From account has been deleted can't transfer")
+			return
+	else:
+		print("From account has been deleted can't transfer")
+		return
 
 
 		 	
