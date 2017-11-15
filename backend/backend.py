@@ -11,6 +11,7 @@ numToNameMap = {}
 accToAmountMap = {}
 recentlyCreated = []
 recentlyDeleted = []
+skip = []
 
 def loadValidAccountList():
 	global currentValidAccountList
@@ -75,14 +76,16 @@ def handleCreate(accountNumInTs, accountName):
 		newMasterAccountsFile.append(accountNumInTs + " 000 " + accountName)
 		recentlyCreated.append(accountNumInTs)
 
-		
+	
 
 def handleDelete(accountNumInTs, accountName):
-	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
+	global skip, recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
 	name = numToNameMap[accountNumInTs]
 	name = name.strip()
 	accountName = accountName.strip()
 	
+	skip.append(accountNumInTs)
+
 	if(name != accountName):
 		print("Not a match ")
 		return
@@ -106,6 +109,13 @@ def handleDelete(accountNumInTs, accountName):
 			return 
 
 
+def writeNewValidAccounts(skip, currentValidAccountList):
+	f = open('backend/newValidAccounts', 'w').close() # empty the file
+	f = open('backend/newValidAccounts', 'w')
+	for account in currentValidAccountList:
+		if account not in skip:
+			f.write(account+"\n")
+	f.close()
 
 def handleDeposit(accountNumInTs, amount):
 	global recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
@@ -220,4 +230,5 @@ loadTransActionSummary()
 mapNumToName()
 mapAccountNumToAmount()
 parseTransactionSummary()
+writeNewValidAccounts(skip, currentValidAccountList)
 
