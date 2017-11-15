@@ -4,6 +4,9 @@ import sys, os, copy
 
 #global variables to store the files, lists and maps
 
+#Input files: MasterAccountsFile, ValidAccounts, MergedSummary
+#Output files: MasterAcountsFiles, ValidAccounts, newValidAccounts
+
 currentValidAccountList = None
 transactionSummary = None
 currentMasterAccountsList = None
