@@ -80,7 +80,11 @@ def handleCreate(accountNumInTs, accountName):
 
 def handleDelete(accountNumInTs, accountName):
 	global skip, recentlyCreated, recentlyDeleted, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile,numToNameMap, accToAmountMap
-	name = numToNameMap[accountNumInTs]
+	try:
+		name = numToNameMap[accountNumInTs]
+	except KeyError:
+		print("invalid account number")
+		return
 	name = name.strip()
 	accountName = accountName.strip()
 	
@@ -114,6 +118,12 @@ def writeNewValidAccounts(skip, currentValidAccountList):
 	f = open('backend/newValidAccounts', 'w')
 	for account in currentValidAccountList:
 		if account not in skip:
+			f.write(account+"\n")
+	f.close()
+
+def writeNewMasterAccounts(newMasterAccountsFile):
+	f = open('backend/MasterAccountsFile', 'w')
+	for account in newMasterAccountsFile:
 			f.write(account+"\n")
 	f.close()
 
@@ -231,4 +241,5 @@ mapNumToName()
 mapAccountNumToAmount()
 parseTransactionSummary()
 writeNewValidAccounts(skip, currentValidAccountList)
+writeNewMasterAccounts(newMasterAccountsFile)
 
