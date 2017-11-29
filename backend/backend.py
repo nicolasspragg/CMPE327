@@ -11,7 +11,7 @@ currentValidAccountList = None
 transactionSummary = None
 currentMasterAccountsList = None
 newMasterAccountsFile = None
-newValidAccountsFile = []
+newValidAccountsFile = None
 numToNameMap = {}
 accToAmountMap = {}
 recentlyCreated = []
@@ -20,7 +20,7 @@ skip = []
 
 #copy valid accounts list into new list
 def loadValidAccountList():
-	global currentValidAccountList
+	global currentValidAccountList, newValidAccountsFile
 	currentValidAccountListFile = sys.argv[1]
 	currentValidAccountList = open(currentValidAccountListFile, 'r').readlines()
 	currentValidAccountList = map(str.rstrip, currentValidAccountList)
@@ -75,15 +75,16 @@ def parseTransactionSummary():
 #This function checks if the account trying to be creasted has a unique account number. If it is, it add the new account to the master accounts file
 def handleCreate(accountNumInTs, accountName):
 	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile, recentlyDeleted
-	print(accountNumInTs)
-	print(currentValidAccountList)
-	if(accountNumInTs in currentValidAccountList or accountNumInTs in recentlyCreated):
+	print(newValidAccountsFile)
+	if(accountNumInTs in newValidAccountsFile or accountNumInTs in recentlyCreated):
+
 		#failure
 		print("not unique")
 		return
 	else:
 		#add to lists
-		newValidAccountsFile.append(int(accountNumInTs))
+		newValidAccountsFile.append(accountNumInTs)
+		print(newValidAccountsFile)
 		newMasterAccountsFile.append(accountNumInTs + " 000 " + accountName)
 		recentlyCreated.append(accountNumInTs)
 
@@ -121,10 +122,10 @@ def handleDelete(accountNumInTs, accountName):
 			return 
 
 #Writes to new valid accounts list
-def writeNewValidAccounts(skip, currentValidAccountList):
+def writeNewValidAccounts(skip, newValidAccountsFile):
 	f = open('backend/newValidAccounts', 'w').close() # empty the file
 	f = open('backend/newValidAccounts', 'w')
-	for account in currentValidAccountList:
+	for account in newValidAccountsFile:
 		if account not in skip:
 			f.write(account+"\n")
 	f.close()
@@ -243,6 +244,6 @@ loadTransActionSummary()
 mapNumToName()
 mapAccountNumToAmount()
 parseTransactionSummary()
-writeNewValidAccounts(skip, currentValidAccountList)
+writeNewValidAccounts(skip, newValidAccountsFile)
 writeNewMasterAccounts(newMasterAccountsFile)
 
