@@ -8,14 +8,14 @@
 # run the program using the test files as the input parameters, 
 # setting testMode, and capturing the output in a variable
 # `cat tests/$1/test_$2` pipes what is in the test case into the program line by line
-output=$(python frontend/qbasic.py Backend/ValidAccounts frontend/transactionsummary.txt testMode << EOF
+output=$(python frontend/qbasic.py Backend/newValidAccounts frontend/transactionsummary.txt testMode << EOF
 `cat combined/inputs/$1`
 EOF)
 cp frontend/transactionsummary.txt combined/outputs
 mv combined/outputs/transactionsummary.txt combined/outputs/$1
 >frontend/transactionsummary.txt
 
-output=$(python frontend/qbasic.py Backend/ValidAccounts frontend/transactionsummary.txt testMode << EOF
+output=$(python frontend/qbasic.py Backend/newValidAccounts frontend/transactionsummary.txt testMode << EOF
 `cat combined/inputs/$2`
 EOF)
 cp frontend/transactionsummary.txt combined/outputs
@@ -23,7 +23,7 @@ mv combined/outputs/transactionsummary.txt combined/outputs/$2
 >frontend/transactionsummary.txt
 
 
-output=$(python frontend/qbasic.py Backend/ValidAccounts frontend/transactionsummary.txt testMode << EOF
+output=$(python frontend/qbasic.py Backend/newValidAccounts frontend/transactionsummary.txt testMode << EOF
 `cat combined/inputs/$3`
 EOF)
 cp frontend/transactionsummary.txt combined/outputs
@@ -34,4 +34,4 @@ cat combined/outputs/$1 >> combined/merged_transaction_summary.txt
 cat combined/outputs/$2 >> combined/merged_transaction_summary.txt
 cat combined/outputs/$3 >> combined/merged_transaction_summary.txt
 
-python backend/backend.py Backend/ValidAccounts backend/MasterAccountsFile combined/merged_transaction_summary.txt
+python backend/backend.py Backend/newValidAccounts backend/MasterAccountsFile combined/merged_transaction_summary.txt
