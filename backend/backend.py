@@ -87,6 +87,8 @@ def handleCreate(accountNumInTs, accountName):
 		print(newValidAccountsFile)
 		newMasterAccountsFile.append(accountNumInTs + " 000 " + accountName)
 		recentlyCreated.append(accountNumInTs)
+		mapNumToName()
+		mapAccountNumToAmount()
 
 	
 #This function checks if the name on the account being deleted matches the name associated with that account in the master accounts file. 
