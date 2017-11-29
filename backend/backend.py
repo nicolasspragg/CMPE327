@@ -75,7 +75,9 @@ def parseTransactionSummary():
 #This function checks if the account trying to be creasted has a unique account number. If it is, it add the new account to the master accounts file
 def handleCreate(accountNumInTs, accountName):
 	global recentlyCreated, currentValidAccountList, currentMasterAccountsList, newMasterAccountsFile, newValidAccountsFile, recentlyDeleted
-	if(accountNumInTs in newMasterAccountsFile or accountNumInTs in recentlyCreated):
+	print(accountNumInTs)
+	print(currentValidAccountList)
+	if(accountNumInTs in currentValidAccountList or accountNumInTs in recentlyCreated):
 		#failure
 		print("not unique")
 		return
@@ -229,7 +231,7 @@ def mapNumToName():
 def mapAccountNumToAmount():
 	global newMasterAccountsFile, accToAmountMap
 	for item in newMasterAccountsFile:
-		accountNumber = item[:7]
+		accountNumber = item.split()[0]
 		amount = item.split()[1]
 		accToAmountMap[accountNumber] = amount
 
